@@ -1,0 +1,14 @@
+#!/bin/bash
+
+basepath=$HOME'/remaster/LaosPackageManager/projects'
+
+[ -d "$basepath/installtmp/hack" ] && sudo rm -rv $basepath/installtmp/hack/ || echo "Check Package Pentest Pack"
+
+echo "installing......"
+if [ "$(mkdir $basepath/installtmp/hack && cd $basepath/installtmp/hack/ && cat $basepath/pack/hack/*.tar.gz | tar -xzf - -i && cd $basepath/installtmp/hack/debfile && dpkg --force-conflicts -i * && cd $basepath/pack/hack/ && ./sc.sh && spBurp.sh) " ]
+then
+	echo "success"
+else
+	echo "installasi gagal"
+fi
+

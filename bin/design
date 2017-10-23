@@ -1,0 +1,14 @@
+#!/bin/bash
+
+basepath=$HOME'/remaster/LaosPackageManager/projects'
+
+[ -d "$basepath/installtmp/design" ] && sudo rm -rv $basepath/installtmp/design/ || echo "Check Package Designer Pack"
+
+echo "installing......"
+if [ "$(mkdir $basepath/installtmp/design && cd $basepath/installtmp/design/ && cat $basepath/pack/design/*.tar.gz | tar -xzf - -i && cd $basepath/installtmp/design/debfile && dpkg --force-conflicts -i *)" ]
+then
+	echo "success"
+else
+	echo "installasi gagal"
+fi
+

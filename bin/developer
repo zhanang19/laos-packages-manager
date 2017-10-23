@@ -1,0 +1,14 @@
+#!/bin/bash
+
+basepath=$HOME'/remaster/LaosPackageManager/projects'
+
+[ -d "$basepath/installtmp/developer" ] && sudo rm -rv $basepath/installtmp/developer/ || echo "Check Package Developer Pack"
+
+echo "installing......"
+if [ "$(mkdir $basepath/installtmp/developer && cd $basepath/installtmp/developer/ && cat $basepath/pack/developer/*.tar.gz | tar -xzf - -i && cd $basepath/installtmp/developer/debfile && dpkg --force-conflicts -i *)" ]
+then
+	echo "success"
+else
+	echo "installasi gagal"
+fi
+
