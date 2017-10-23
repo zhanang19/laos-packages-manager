@@ -1,0 +1,125 @@
+#!/bin/bash
+
+package=$1
+#-d -o=dir::cache=./$1/
+
+basepath=$HOME'/remaster/LaosPackageManager/projects/'
+#basepath='/opt/laos-package/'
+tujuan='$basepath/paket'
+
+function UserExist
+{
+   awk -F":" '{ print $1 }' /etc/passwd | grep -x $1 > /dev/null
+   return $?
+}
+
+function check_aptuser
+{
+    UserExist "_apt"
+    if [ $? = 0 ]; then
+        echo "check user : _apt exists. - done"
+    else
+        adduser --force-badname --system --home /nonexistent --no-create-home -- && quiet _apt || true
+    fi
+}
+
+function full {
+     if [ "$2" -ne '' ]; 
+     then
+	$tujuan=$2
+     fi
+ 
+     if [ "$(mkdir -p $basepath/temp/$1/ && mkdir -p $basepath/temp/$1/debfile/ && sudo chown -R _apt:root $basepath/temp/$1/debfile && cd $basepath/temp/$1/debfile && sudo apt-get download $(apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances --no-pre-depends $1 | grep "^\w" | grep -v i386 ) && cd $basepath && tar -czvf $1.tar.gz -C $basepath/temp/$1/ debfile/ && sudo chmod 777 $1.tar.gz && mv $1.tar.gz $ujuan | sudo rm -rf $basepath/temp/*)" ] 
+     then
+        echo "sukses"
+     else
+        echo "terjadi error"
+     fi
+}
+
+function partial {
+    if [ "$2" -ne '' ]; 
+    then
+	$tujuan=$2
+    fi 
+
+    if [ "$(mkdir -p $basepath/temp/$1/  && mkdir -p $basepath/temp/$1/debfile/ && sudo chown -R _apt:root $basepath/temp/$1/debfile && cd $basepath/temp/$1/debfile && sudo apt-get download $(apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances --no-pre-depends $1 | grep "^\w" | grep -v -f $basepath/app.list | grep -v i386 ) && cd $basepath && tar -czvf $1.tar.gz -C $basepath/temp/$1 debfile/ && sudo chmod 777 $1.tar.gz && mv $1.tar.gz $tujuan | sudo rm -rf $basepath/temp/*)" ]
+    then
+        echo "sukses"
+    else
+        echo "terjadi error"
+    fi
+}
+
+if [ "$EUID" -ne 0 ]
+  then echo "jalankan dengan sudo(perlu akses root)"
+  exit
+fi
+
+if [ -n "$1" ]; then
+
+    if [ $1 == "-d" ]; then
+
+        [ -d "$basepath/temp/$2" ] && sudo rm -rv $basepath/temp/$2/ || echo "Downloading "$2
+
+        check_aptuser
+
+        if  [ -z "$3" ];
+        then	
+	    echo "Download paket yang belum ada"
+            partial $2
+
+        else
+            if [ $3 == "full" ];
+            then
+
+            echo "Download full paket"
+            full $2
+
+            else
+		echo "Download paket yang belum ada"
+            	partial $2 $3
+
+
+            fi
+
+        fi
+
+    elif [ $1 == "-i" ]; then
+        
+        [ -d "$basepath/installtmp/$2" ] && sudo rm -rv $basepath/installtmp/$2/ || echo "installing "$2
+        
+        mkdir $basepath/installtmp/$2 && tar -xvf $2 -C $basepath/installtmp/$2 && cd $basepath/installtmp/$2/debfile && dpkg -i *
+
+    elif [ $1 == "-l" ]; then
+
+        filename="$2"
+        while read -r line
+        do
+            name="$line"
+            echo "downloading - $name"
+            partial $name
+        done < "$filename"
+
+    elif [ $1 == "--help" ]; then
+
+        echo 'Download Package : '
+        echo 'lpm -d <nama paket> => untuk paket pendukung yang belum ada di device'
+        echo 'lpm -d <nama paket> full => untuk semua paket pendukung'
+        echo 'lpm -l <nama file> => download beberapa package dalam list'
+        echo ''
+        echo 'Install Package :'
+        echo 'lpm -i <namafile>'
+
+    else
+    
+    echo 'run lpm --help untuk tutorial penggunaan lebih lengkap'
+
+    fi
+
+else
+
+echo 'run lpm --help untuk tutorial penggunaan lebih lengkap'
+
+fi
+

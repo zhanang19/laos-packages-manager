@@ -1,0 +1,14 @@
+#!/bin/bash
+
+basepath=$HOME'/remaster/LaosPackageManager/projects'
+
+[ -d "$basepath/installtmp/student" ] && sudo rm -rv $basepath/installtmp/student/ || echo "Check Package Student Pack"
+
+echo "installing......"
+if [ "$(mkdir $basepath/installtmp/student && cd $basepath/installtmp/student/ && cat $basepath/pack/student/*.tar.gz | tar -xzf - -i && cd $basepath/installtmp/student/debfile && dpkg --force-conflicts -i *)" ]
+then
+	echo "success"
+else
+	echo "installasi gagal"
+fi
+
