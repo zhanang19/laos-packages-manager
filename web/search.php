@@ -5,12 +5,6 @@ $app = $_GET['app'];
 
 $data = str_get_html(file_get_contents('https://packages.ubuntu.com/search?suite=bionic&section=all&arch=any&keywords='.$app.'&searchon=names'));
 
-function lihat_deskripsi($app) {
-    $data = str_get_html(file_get_contents('https://packages.ubuntu.com/search?suite=bionic&section=all&arch=any&keywords='.$app.'&searchon=names'));
-    $deskripsi = explode('[', explode(': 	', strip_tags($data->find('li')[0]))[1])[0];
-    return $deskripsi;
-}
-
 if (strlen($app) > 1) {
     if(! strpos($data->plaintext, 'Sorry, your')){
         $jadi['status'] = true;
@@ -18,12 +12,17 @@ if (strlen($app) > 1) {
     
         $i = 0;
         foreach ($data->find('a[class=resultlink]') as $e) {
-            $tmp = explode('/bionic/', $e->href)[1];
+            $nama_paket = explode('/bionic/', $e->href)[1];
             if ($i === 0) {
-                $jadi['nama_paket'] = $tmp;
-                $jadi['deskripsi_paket'] = explode('[', explode(': 	', strip_tags($data->find('li')[0]))[1])[0];;
+                $jadi['nama_paket'] = $nama_paket;
+                $tmp = strip_tags($data->find('li')[0]);
+                $tmp = explode(': 	', $tmp)[1];
+                $tmp = explode(' [', $tmp)[0];
+                $tmp = explode('  ', $tmp)[0];
+                $tmp = explode(' (', $tmp)[0];
+                $jadi['deskripsi_paket'] = $tmp;
             } else {
-                $jadi['pilihan_paket'][$i] = $tmp;
+                $jadi['pilihan_paket'][$i] = $nama_paket;
             }
             $i++;
         }
