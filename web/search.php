@@ -3,9 +3,9 @@ header('Content-Type: application/json');
 require "dom.php";
 $app = $_GET['app'];
 
-$data = str_get_html(file_get_contents('https://packages.ubuntu.com/search?suite=bionic&section=all&arch=any&keywords='.$app.'&searchon=names'));
-
 if (strlen($app) > 1) {
+    $data = str_get_html(file_get_contents('https://packages.ubuntu.com/search?suite=bionic&section=all&arch=any&keywords='.$app.'&searchon=names'));
+
     if(! strpos($data->plaintext, 'Sorry, your')){
         $jadi['status'] = true;
         $jadi['cari'] = $app;
