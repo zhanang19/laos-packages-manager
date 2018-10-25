@@ -9,7 +9,7 @@ if (strlen($app) > 1) {
     
     if (! strpos($data->plaintext, 'Sorry, your') || ! strpos($data->plaintext, 'keyword not valid')) {
         $data2 = str_get_html(file_get_contents('https://www.alldeb.net/webmaker/cari-bionic?aplikasi='.$app));
-        $data3 = json_decode(str_get_html(file_get_contents('http://localhost/lpm/icon.php?app='.$app)));
+        $data3 = json_decode(str_get_html(file_get_contents('http://laos.ilkom.unej.ac.id/api/lpm/icon.php?app='.$app)));
 
         $jadi['status'] = true;
         $jadi['nama_paket'] = $app;
