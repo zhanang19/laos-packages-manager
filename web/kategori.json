@@ -1,0 +1,51 @@
+{
+    "data": [{
+            "kategori": "dev",
+            "nama_paket": [{
+                "1": "netbeans",
+                "2": "atom",
+                "3": "apache2",
+                "4": "mariadb-server",
+                "5": "php7.0",
+                "6": "npm",
+                "7": "nginx",
+                "8": "libapache2-modphp7.0",
+                "9": "codeblocks",
+                "10": "geany",
+                "11": "ipython",
+                "12": "firebase",
+                "13": "heroku"
+            }]
+        },
+        {
+            "kategori": "design",
+            "nama_paket": [{
+                "1": "inkscape",
+                "2": "gimp",
+                "3": "blender",
+                "4": "krita",
+                "5": "synfig"
+            }]
+        },
+        {
+            "kategori": "hacking",
+            "nama_paket": [{
+                "1": "hydra",
+                "2": "wireshark",
+                "3": "hashcat",
+                "4": "foremost",
+                "5": "wpscan",
+                "6": "sslstrip",
+                "7": "sqlmap",
+                "8": "vega",
+                "9": "websploit",
+                "10": "dirbuster",
+                "11": "dsniff",
+                "12": "ettercap",
+                "13": "nmap",
+                "14": "zenmap"
+            }]
+        }
+    ]
+
+}
