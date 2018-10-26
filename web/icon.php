@@ -9,7 +9,7 @@ $link = $base_link . $app . '.svg';
 $data = str_get_html(file_get_contents($link));
 
 if ($data === FALSE) {
-    $jadi['link'] = 'https://via.placeholder.com/64.svg';
+    $jadi['link'] = 'http://artemtech.me/api/lpm/kemangi.svg';
 } else {
     if ($data->find('svg')[0]) {
         $jadi['link'] = $link;
