@@ -1,5 +1,7 @@
 <?php
+echo 'hai';
+die();
 $icon = $_GET['icon'];
 header('Content-Type: image/png');
 
-echo file_get_contents($icon);
+echo imagepng(imagecreatefromstring(file_get_contents($icon))); 
